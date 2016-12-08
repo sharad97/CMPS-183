@@ -1,0 +1,31 @@
+{{extend 'layout.html'}}
+<h3>Profile</h3>
+
+{{=A('Edit', _class='btn btn-primary', _href=URL('default','user', args=['profile']))}}
+
+<div>
+    <div>
+        <div id="Photo">
+            {{=IMG(_src=URL('download',args=[pics.Profile_pic]), _height=200, _width=200)}}
+        </div>
+    </div>
+
+        <p>
+            <strong>First Name:</strong>
+            <span>{{=pics.first_name}}</span>
+        </p>
+        <p>
+            <strong>Last Name:</strong>
+            <span>{{=pics.last_name}}</span>
+        </p>
+        <p>
+            <strong>Bio:</strong>
+            <span>{{=pics.bio}}</span>
+        </p>
+        <p>
+            <strong>Job:</strong>
+            <span>{{=pics.job}}
+               </span>
+        </p>
+    </div>
+{{form}}

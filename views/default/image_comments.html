@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+ {{=A('Back', _class='btn btn-primary', _href=URL('default','picture1',args=[auth.user_id]))}}
+
+{{if auth.user:}}
+    <div>
+    <a  href="{{=URL(f='link', args=image.file1)}}"><img src="{{=URL(f='link', args=image.file1)}}"/>
+    {{=image.title}}
+    </a>
+        </div>
+  {{=form}}
+{{pass}}
+<table>
+  {{for comment1 in comments:}}
+  <tr>
+    <td>{{=comment1.posted_on}}</td>
+    <td>{{=comment1.posted_by.first_name}} says </td>
+    <td>{{=MARKMIN(comment1.body)}}</td>
+  </tr>
+  {{pass}}
+</table>

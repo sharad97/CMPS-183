@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+{{=A('Back', _class='btn btn-primary', _href=URL('default','animes',args=[auth.user_id]))}}
+
+{{=H5(anime.title)}}
+{{trows=[]}}
+
+{{if auth.is_logged_in():}}
+  {{thead = THEAD(TR(TH(T("Title")),TH(T("Content"))))}}
+
+    {{trows.append(TR(TD(IMG(_src=URL(f="download", args=["image", anime.thumbnail]), _width="100px")), TD(T("Description"), ":", BR(), anime.description), _colspan=2))}}
+
+{{pass}}
+{{tbody=TBODY(*trows)}}
+{{=TABLE(thead, tbody)}}
+{{=HR()}}
+
+{{pass}}
+
+ {{if anime.service=="youtube":}}
+  {{anime_div=DIV(_id="anime")}}
+  {{pop='var pop = Popcorn.youtube("#anime", "www.youtube.com/watch?v=%(code)s");' % dict(code=anime.code)}}
+
+{{pass}}
+{{=HR()}}
+{{=TABLE(TR(TD(anime_div)), TR(TD()), _class="show")}}
+{{=HR()}}
+
+{{=form}}
+<table>
+  {{for comment4 in comments:}}
+  <tr>
+    <td>{{=comment4.posted_on}}</td>
+    <td>{{=comment4.posted_by.first_name}} says </td>
+    <td>{{=MARKMIN(comment4.body)}}</td>
+  </tr>
+  {{pass}}
+</table>
+
+        {{=SCRIPT("""
+  jQuery(document).ready(function(){%(pop)s});""" % dict(code=anime.code, pop=pop), _type="text/javascript")}}

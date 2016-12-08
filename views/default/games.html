@@ -1,0 +1,20 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,False}}
+{{extend 'layout.html'}}
+
+{{trows=[]}}
+{{if auth.is_logged_in():}}
+  {{thead = THEAD(TR(TH(T("Title")),TH(T("Content"))))}}
+  {{for game in games:}}
+    {{trows.append(TR(TD(A(game.title, _href=URL(f="gameshow", args=["game", game.id])))))}}
+    {{trows.append(TR(TD(IMG(_src=URL(f="download", args=["image", game.thumbnail]), _width="100px",  _height="150px")), TD(T("Rating"), ":", BR(), game.rating), _colspan=2))}}
+  {{pass}}
+{{else:}}
+  {{thead = THEAD(TR(TH(), TH()))}}
+  {{for game in games:}}
+    {{trows.append(TR(TD(A(game.title, _href=URL(f="gameshow", args=["game", game.id])))))}}
+    {{trows.append(TR(TD(IMG(_src=URL(f="download", args=["image", game.thumbnail]), _width="100px",  _height="150px")), TD(T("Rating"), ":", BR(), game.rating), _colspan=2))}}
+  {{pass}}
+{{pass}}
+{{tbody=TBODY(*trows)}}
+{{=TABLE(thead, tbody)}}
+{{=HR()}}

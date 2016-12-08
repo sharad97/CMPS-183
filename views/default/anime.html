@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+{{=H3(T("Add/Edit a video"))}}
+{{if anime_id is not None:}}
+  {{=HR()}}
+  {{=A(T("Show anime"), _href=URL(f="animeshow", args=["anime", anime_id]))}}
+
+
+{{pass}}
+{{=form}}

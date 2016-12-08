@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+{{=A('Back', _class='btn btn-primary', _href=URL('default','games',args=[auth.user_id]))}}
+
+{{=H5(game.title)}}
+{{trows=[]}}
+
+{{if auth.is_logged_in():}}
+  {{thead = THEAD(TR(TH(T("Title")),TH(T("Content"))))}}
+
+    {{trows.append(TR(TD(IMG(_src=URL(f="download", args=["image", game.thumbnail]), _width="100px")), TD(T("Description"), ":", BR(), game.description), _colspan=2))}}
+
+{{pass}}
+{{tbody=TBODY(*trows)}}
+{{=TABLE(thead, tbody)}}
+{{=HR()}}
+
+{{pass}}
+
+ {{if game.service=="youtube":}}
+  {{game_div=DIV(_id="game")}}
+  {{pop='var pop = Popcorn.youtube("#game", "www.youtube.com/watch?v=%(code)s");' % dict(code=game.code)}}
+
+{{pass}}
+{{=HR()}}
+{{=TABLE(TR(TD(game_div)), TR(TD()), _class="show")}}
+{{=HR()}}
+
+{{=form}}
+<table>
+  {{for comment3 in comments:}}
+  <tr>
+    <td>{{=comment3.posted_on}}</td>
+    <td>{{=comment3.posted_by.first_name}} says </td>
+    <td>{{=MARKMIN(comment3.body)}}</td>
+  </tr>
+  {{pass}}
+</table>
+
+        {{=SCRIPT("""
+  jQuery(document).ready(function(){%(pop)s});""" % dict(code=game.code, pop=pop), _type="text/javascript")}}

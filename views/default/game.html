@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+{{=H3(T("Add/Edit a video"))}}
+{{if game_id is not None:}}
+  {{=HR()}}
+  {{=A(T("Show game"), _href=URL(f="gameshow", args=["game", game_id]))}}
+
+
+{{pass}}
+{{=form}}

@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+{{=A('Back', _class='btn btn-primary', _href=URL('default','video1',args=[auth.user_id]))}}
+
+{{=H3(T("Videos"))}}
+{{=H5(video.title)}}
+
+{{if auth.is_logged_in():}}
+{{=A(T("Edit entry"), _href=URL(f="video", args=["update", video.id]))}}
+{{else:}}
+{{pass}}
+
+{{if video.service=="youtube":}}
+  {{video_div=DIV(_id="video")}}
+  {{pop='var pop = Popcorn.youtube("#video", "www.youtube.com/watch?v=%(code)s");' % dict(code=video.code)}}
+
+{{pass}}
+{{=HR()}}
+{{=TABLE(TR(TD(video_div)), TR(TD()), _class="show")}}
+{{=HR()}}
+
+{{=form}}
+{{pass}}
+<table>
+  {{for comment2 in comments:}}
+  <tr>
+    <td>{{=comment2.posted_on}}</td>
+    <td>{{=comment2.posted_by.first_name}} says </td>
+    <td>{{=MARKMIN(comment2.body)}}</td>
+  </tr>
+  {{pass}}
+</table>
+
+{{=SCRIPT("""
+  jQuery(document).ready(function(){%(pop)s});""" % dict(code=video.code, pop=pop), _type="text/javascript")}}
